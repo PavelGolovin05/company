@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace Company.Entities
 {
-    class PaymentType
+    class Subdivision
     {
         private int id;
-        private string paymentType;
+        private string subdivision;
 
-        public PaymentType(int id, string paymentType)
+        public Subdivision(int id, string subdivision)
         {
             this.id = id;
-            this.paymentType = paymentType;
+            this.subdivision = subdivision;
         }
 
         public int Id { get => id; set => id = value; }
-        public string GetPaymentType { get => paymentType; set => paymentType = value; }
+        public string GetSubdivision { get => subdivision; set => subdivision = value; }
 
         public override string ToString()
         {
-            return "Id: " + id + " Тип оплаты: " + paymentType;
+            return "Id: " + id + " Подразделение: " + subdivision; ;
         }
     }
 }

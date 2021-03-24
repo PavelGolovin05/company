@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\..\Downloads\MSII_1\MSII\bin\Debug\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,7 +55,7 @@
     <Compile Include="Entities\Employee.cs" />
     <Compile Include="Entities\PaymentType.cs" />
     <Compile Include="Entities\Position.cs" />
-    <Compile Include="Entities\Subdirectory.cs" />
+    <Compile Include="Entities\Subdivision.cs" />
     <Compile Include="Entities\WorkHours.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
