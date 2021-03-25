@@ -51,8 +51,10 @@
   <ItemGroup>
     <Compile Include="DB\DBConnection.cs" />
     <Compile Include="Entities\Branch.cs" />
+    <Compile Include="Entities\BranchSubdivision.cs" />
     <Compile Include="Entities\City.cs" />
     <Compile Include="Entities\Employee.cs" />
+    <Compile Include="Entities\Month.cs" />
     <Compile Include="Entities\PaymentType.cs" />
     <Compile Include="Entities\Position.cs" />
     <Compile Include="Entities\Subdivision.cs" />

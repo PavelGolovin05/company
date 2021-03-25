@@ -12,20 +12,21 @@ namespace Company.Entities
         private string surname;
         private string name;
         private string patronymic;
-        private Branch branch;
+        private BranchSubdivision branchSubdivision;
         private Position position;
         private PaymentType paymentType;
         private int fixedSalary;
         private int hourCost;
 
-        public Employee(int id, string surname, string name, string patronymic, Branch branch,
-            Position position, PaymentType paymentType, int fixedSalary, int hourCost)
+        public Employee(int id, string surname, string name, string patronymic,
+            BranchSubdivision branchSubdivision, Position position,
+            PaymentType paymentType, int fixedSalary, int hourCost)
         {
             this.id = id;
             this.surname = surname;
             this.name = name;
             this.patronymic = patronymic;
-            this.branch = branch;
+            this.branchSubdivision = branchSubdivision;
             this.position = position;
             this.paymentType = paymentType;
             this.fixedSalary = fixedSalary;
@@ -41,16 +42,18 @@ namespace Company.Entities
         public string Patronymic { get => patronymic; set => patronymic = value; }
         public int FixedSalary { get => fixedSalary; set => fixedSalary = value; }
         public int HourCost { get => hourCost; set => hourCost = value; }
-        internal Branch Branch { get => branch; set => branch = value; }
+
         internal Position Position { get => position; set => position = value; }
         internal PaymentType PaymentType { get => paymentType; set => paymentType = value; }
+        internal BranchSubdivision BranchSubdivision { get => branchSubdivision; set => branchSubdivision = value; }
 
         public override string ToString()
         {
             return "Id: " + id + " ФИО: " + getFIO() + " Должность: "
                 + position.GetPosition + " Тип оплаты: " + paymentType.GetPaymentType
                 + (fixedSalary > 0 ? (" Фиксированная запрлата: " + fixedSalary) : (""))
-                + (hourCost > 0 ? (" Стоимость часа работы: " + hourCost) : (""));
+                + (hourCost > 0 ? (" Стоимость часа работы: " + hourCost) : (""))
+                + " " + branchSubdivision.ToString();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,6 @@ namespace Company.DB
         private MySqlConnection mySqlConnection;
         private MySqlCommand command;
         MySqlDataAdapter adapter;
-
-        public MySqlConnection MySqlConnection { get => mySqlConnection; }
-        public MySqlDataAdapter Adapter { get => adapter;}
 
         public DBConnection(string server, string user, string db, string password, string charSet)
         {
@@ -60,6 +58,28 @@ namespace Company.DB
         public void CloseConnetion()
         {
             mySqlConnection.Close();
+        }
+
+        public void CUD(string sql)
+        {
+            command = new MySqlCommand(sql, mySqlConnection);
+            if (command.ExecuteNonQuery() == 1)
+            {
+                MessageBox.Show("Операция выполнена успешно!");
+            }
+            else
+            {
+                MessageBox.Show("Операция не выполнена!");
+            }
+        }
+
+        public DataTable SelectQuery(string sql)
+        {
+            DataTable table = new DataTable();
+            command = new MySqlCommand(sql, mySqlConnection);
+            adapter.SelectCommand = command;
+            adapter.Fill(table);
+            return table;
         }
     }
 }

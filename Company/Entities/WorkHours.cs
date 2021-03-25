@@ -11,20 +11,24 @@ namespace Company.Entities
         private int id;
         private int hoursCount;
         private Employee employee;
-        public WorkHours(int id, int hoursCount, Employee employee)
+        private Month month;
+        public WorkHours(int id, int hoursCount, Employee employee, Month month)
         {
             this.id = id;
             this.hoursCount = hoursCount;
             this.employee = employee;
+            this.month = month;
         }
 
         public int Id { get => id; set => id = value; }
         public int HoursCount { get => hoursCount; set => hoursCount = value; }
         internal Employee Employee { get => employee; set => employee = value; }
+        internal Month Month { get => month; set => month = value; }
 
         public override string ToString()
         {
-            return "Сотрудник: " + employee.getFIO() + " отработал: " + (
+            return "В " + month.Name +  "Сотрудник: " + employee.getFIO() + " отработал: " 
+                + hoursCount + (
                 hoursCount % 100 > 10 
                 && hoursCount % 100 < 20 
                 || (hoursCount % 10 > 4 && hoursCount % 10 < 10) 
