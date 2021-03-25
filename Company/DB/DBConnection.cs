@@ -69,17 +69,28 @@ namespace Company.DB
             }
             else
             {
-                MessageBox.Show("Операция не выполнена!");
+                MessageBox.Show("Операция " + sql + " не выполнена!");
             }
         }
 
         public DataTable SelectQuery(string sql)
         {
-            DataTable table = new DataTable();
-            command = new MySqlCommand(sql, mySqlConnection);
-            adapter.SelectCommand = command;
-            adapter.Fill(table);
-            return table;
+            try
+            {
+                DataTable table = new DataTable();
+                command = new MySqlCommand(sql, mySqlConnection);
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+                return table;
+            }
+            catch(MySqlException)
+            {
+                MessageBox.Show("Операция " + sql + " не выполнена!");
+                Environment.Exit(0);
+                mySqlConnection.Close();
+                return null;
+            }
+
         }
     }
 }

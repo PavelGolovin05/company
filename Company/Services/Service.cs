@@ -11,12 +11,12 @@ namespace Company.Services
     class Service
     {
         protected DBConnection dBConnection;
-        protected DataGridView DataGridView;
+        protected DataGridView dataGridView;
 
         public Service(DBConnection dBConnection, DataGridView dataGridView)
         {
             this.dBConnection = dBConnection;
-            this.DataGridView = dataGridView;
+            this.dataGridView = dataGridView;
         }
     }
 }

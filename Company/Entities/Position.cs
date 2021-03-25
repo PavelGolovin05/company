@@ -16,7 +16,7 @@ namespace Company.Entities
             this.id = id;
             this.position = position;
         }
-        public int GetId { get => id; set => id = value; }
+        public int Id { get => id; set => id = value; }
         public string GetPosition { get => position; set => position = value; }
 
         public override string ToString()
