@@ -59,11 +59,29 @@
     <Compile Include="Entities\Position.cs" />
     <Compile Include="Entities\Subdivision.cs" />
     <Compile Include="Entities\WorkHours.cs" />
+    <Compile Include="Forms\BranchSubdivisionInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BranchSubdivisionInput.Designer.cs">
+      <DependentUpon>BranchSubdivisionInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EmployeeInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EmployeeInput.Designer.cs">
+      <DependentUpon>EmployeeInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\WorkHoursInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WorkHoursInput.Designer.cs">
+      <DependentUpon>WorkHoursInput.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,8 +95,17 @@
     <Compile Include="Services\Service.cs" />
     <Compile Include="Services\SubdivisionService.cs" />
     <Compile Include="Services\WorkHourService.cs" />
+    <EmbeddedResource Include="Forms\BranchSubdivisionInput.resx">
+      <DependentUpon>BranchSubdivisionInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EmployeeInput.resx">
+      <DependentUpon>EmployeeInput.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WorkHoursInput.resx">
+      <DependentUpon>WorkHoursInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

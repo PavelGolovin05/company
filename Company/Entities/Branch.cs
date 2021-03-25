@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Company.Entities
 {
-    class Branch
+    public class Branch
     {
         private int id;
         private string name;

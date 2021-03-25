@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Company.Entities
 {
-    class Month
+    public class Month
     {
         private int id;
         private int workHours;

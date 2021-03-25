@@ -42,9 +42,9 @@ namespace Company.DB
                 {
                     mySqlConnection.Open();
                 }
-                catch(MySqlException)
+                catch(MySqlException e)
                 {
-                    MessageBox.Show("Ошибка при подключении к серверу!");
+                    MessageBox.Show(e.Message);
                     Environment.Exit(0);
                 }
                 MessageBox.Show("Подключение к серверу успешно выполнено!");
@@ -63,13 +63,13 @@ namespace Company.DB
         public void CUD(string sql)
         {
             command = new MySqlCommand(sql, mySqlConnection);
-            if (command.ExecuteNonQuery() == 1)
+            try
             {
-                MessageBox.Show("Операция выполнена успешно!");
+                command.ExecuteNonQuery();
             }
-            else
+            catch(MySqlException e)
             {
-                MessageBox.Show("Операция " + sql + " не выполнена!");
+                MessageBox.Show(e.Message);
             }
         }
 
@@ -83,9 +83,9 @@ namespace Company.DB
                 adapter.Fill(table);
                 return table;
             }
-            catch(MySqlException)
+            catch(MySqlException e)
             {
-                MessageBox.Show("Операция " + sql + " не выполнена!");
+                MessageBox.Show(e.Message);
                 Environment.Exit(0);
                 mySqlConnection.Close();
                 return null;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Company.Entities
 {
-    class City
+    public class City
     {
         private int id;
         private string city;

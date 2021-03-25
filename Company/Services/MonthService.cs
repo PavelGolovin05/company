@@ -16,14 +16,20 @@ namespace Company.Services
         { }
         public List<Month> getAllMonths()
         {
+            string sql = "Select * From month_work_hours ORDER BY id";
+
+            return getMonths(sql);
+        }
+
+        public List<Month> getMonths(string sql)
+        {
             List<Month> months = new List<Month>();
 
-            string sql = "Select * From month_work_hours ORDER BY id";
             DataTable monthsTable = dBConnection.SelectQuery(sql);
 
             foreach (DataRow row in monthsTable.Rows)
             {
-                months.Add(new Month((int)row.ItemArray[0], (int) row.ItemArray[1], row.ItemArray[2].ToString()));
+                months.Add(new Month((int)row.ItemArray[0], (int)row.ItemArray[1], row.ItemArray[2].ToString()));
             }
             return months;
         }

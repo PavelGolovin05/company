@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Company.Entities
 {
-    class Subdivision
+    public class Subdivision
     {
         private int id;
         private string subdivision;

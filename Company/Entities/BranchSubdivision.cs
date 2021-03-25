@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Company.Entities
 {
-    class BranchSubdivision
+    public class BranchSubdivision
     {
         private int id;
         private Branch branch;
