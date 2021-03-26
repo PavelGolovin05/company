@@ -12,19 +12,17 @@ namespace Company.Entities
         private string name;
         private City city;
         private List<Subdivision> subdivisions;
-
         public Branch(int id, string name, City city)
         {
             this.id = id;
             this.name = name;
             this.city = city;
+            subdivisions = new List<Subdivision>();
         }
-
         public int Id { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }
         internal City City { get => city; set => city = value; }
         internal List<Subdivision> Subdivisions { get => subdivisions; set => subdivisions = value; }
-
         public override string ToString()
         {
             string text = "Id: " + id + " Название филиала: " + name + " Город: " + city.GetCity + "Подразделения филиала:\n";

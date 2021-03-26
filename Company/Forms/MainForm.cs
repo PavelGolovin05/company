@@ -42,15 +42,15 @@ namespace Company
         {
             InitializeComponent();    
             dBConnection.OpenConnection();
-            branchService = new BranchService(dBConnection, dataGridView1);
-            branchSubdivisionService = new BranchSubdivisionService(dBConnection, dataGridView1);
-            cityService = new CityService(dBConnection, dataGridView1);
-            employeeService = new EmployeeService(dBConnection, dataGridView1);
-            monthService = new MonthService(dBConnection, dataGridView1);
-            paymentTypeService = new PaymentTypeService(dBConnection, dataGridView1);
-            positionService = new PositionService(dBConnection, dataGridView1);
-            subdivisionService = new SubdivisionService(dBConnection, dataGridView1);
-            workHourService = new WorkHourService(dBConnection, dataGridView1);
+            branchService = new BranchService(dBConnection);
+            branchSubdivisionService = new BranchSubdivisionService(dBConnection);
+            cityService = new CityService(dBConnection);
+            employeeService = new EmployeeService(dBConnection);
+            monthService = new MonthService(dBConnection);
+            paymentTypeService = new PaymentTypeService(dBConnection);
+            positionService = new PositionService(dBConnection);
+            subdivisionService = new SubdivisionService(dBConnection);
+            workHourService = new WorkHourService(dBConnection);
             initialData();
         }
 
@@ -59,7 +59,6 @@ namespace Company
             branchesSubdivisions = branchSubdivisionService.getAllBranchesSubdivisions();
             cities = cityService.getAllCities();
             employees = employeeService.getAllEmployees();
-            employees = employeeService.CalculateSalary(employees);
             months = monthService.getAllMonths();
             paymentTypes = paymentTypeService.getAllPaymentTypes();
             positions = positionService.getAllPositions();
@@ -71,6 +70,7 @@ namespace Company
         }
         public void fillDatatGridEmployees()
         {
+            employees = employeeService.CalculateSalary(employees);
             dataGridView1.Rows.Clear();
 
             dataGridView1.ColumnCount = employeeService.getColumnNames().Count;
@@ -134,8 +134,12 @@ namespace Company
             }
 
             fillDatatGridEmployees();
+            MessageBox.Show("Работающих сотрудников: " + employees.Count);
+            if (employees.Count > 0)
+            {
+                MessageBox.Show("Средняя зарплата: " + employees.Average(x => x.Salary));
+            }
         }
-
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem != null)
@@ -146,15 +150,13 @@ namespace Company
             {
                 employees = employeeService.getChosenSubdivisionEmployees(listBox2.SelectedItem.ToString());
             }
-
+            MessageBox.Show("Работающих сотрудников: " + employees.Count);
             fillDatatGridEmployees();
         }
-
         private void главнаяToolStripMenuItem_Click(object sender, EventArgs e)
         {
             initialData();
         }
-
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Вы точно хотите выйти?", "Выход", MessageBoxButtons.YesNo);
@@ -164,7 +166,6 @@ namespace Company
                 this.Close();
             }
         }
-
         //Филиал
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -212,7 +213,7 @@ namespace Company
                 if (subdivision == null)
                 {
                     subdivisionService.addSubdivision(input.GetName);
-                    initialData();
+                    fillListBoxes();
                 }
                 else
                 {
@@ -254,7 +255,6 @@ namespace Company
                 initialData();
             }
         }
-
         private void удалитьToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow != null)
@@ -273,7 +273,6 @@ namespace Company
                 MessageBox.Show("Сначала выберете сотрудника!");
             }
         }
-
         private void изменитьОплатуToolStripMenuItem_Click(object sender, EventArgs e)
         {
            
@@ -295,7 +294,6 @@ namespace Company
                 }
             }
         }
-
         private void добавитьЧасыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow != null)
@@ -341,6 +339,58 @@ namespace Company
                 }
             }
             initialData();
+        }
+        private void сотрудникиПоВыбраннойЗарплатеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NumericInput numericInput = new NumericInput();
+            if (numericInput.ShowDialog() == DialogResult.OK)
+            {
+                employees = employees.Where(x => x.Salary > numericInput.Value).ToList();
+                fillDatatGridEmployees();
+            }
+        }
+        private void сотрудникиСФиксЗпОтработалиВсеЧасыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            employees = employeeService.EmployeesFixeSalaryAllHours();
+            fillDatatGridEmployees();
+        }
+        private void сотрудникиСНаибольшейЗпToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NumericInput numericInput = new NumericInput();
+            if (numericInput.ShowDialog() == DialogResult.OK)
+            {
+                int employeeCount = numericInput.Value;
+                if (numericInput.Value > employees.Count)
+                {
+                    employeeCount = employees.Count;
+                }
+                employees = employees.OrderByDescending(x=>x.Salary).Take(employeeCount).ToList();
+                fillDatatGridEmployees();
+            }
+        }
+
+        private void отчет5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<Branch> branches = branchService.getReport5();
+            dataGridView1.Rows.Clear();
+            dataGridView1.ColumnCount = 2;
+            dataGridView1.Columns[0].HeaderText = "Филиал";
+            dataGridView1.Columns[1].HeaderText = "Подразделение";
+
+            int row = 0;
+
+            for (int i = 0; i < branches.Count; i++)
+            {
+                dataGridView1.RowCount += 1;
+                dataGridView1[0, row].Value = branches[i].Name;
+                for (int j = 0; j < branches[i].Subdivisions.Count; j++)
+                {
+                    dataGridView1.RowCount ++;
+                    row++;
+                    dataGridView1[1, row].Value = branches[i].Subdivisions[j].GetSubdivision;
+                }
+                row++;
+            }
         }
     }
 }

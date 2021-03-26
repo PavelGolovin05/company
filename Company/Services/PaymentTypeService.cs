@@ -12,7 +12,7 @@ namespace Company.Services
 {
     class PaymentTypeService : Service
     {
-        public PaymentTypeService(DBConnection dBConnection, DataGridView dataGridView) : base(dBConnection, dataGridView)
+        public PaymentTypeService(DBConnection dBConnection) : base(dBConnection)
         { }
         public List<PaymentType> getAllPaymentTypes()
         {

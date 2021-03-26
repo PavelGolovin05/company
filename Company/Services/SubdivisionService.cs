@@ -12,7 +12,7 @@ namespace Company.Services
 {
     class SubdivisionService : Service
     {
-        public SubdivisionService(DBConnection dBConnection, DataGridView dataGridView) : base(dBConnection, dataGridView)
+        public SubdivisionService(DBConnection dBConnection) : base(dBConnection)
         { }
         public List<Subdivision> getAllSubdivisions()
         {
@@ -35,9 +35,9 @@ namespace Company.Services
         }
         public void deleteSubdivision(Subdivision subdivision)
         {
-            EmployeeService employeeService = new EmployeeService(dBConnection, dataGridView);
-            BranchSubdivisionService branchSubdivisionService = new BranchSubdivisionService(dBConnection, dataGridView);
-            WorkHourService workHourService = new WorkHourService(dBConnection, dataGridView);
+            EmployeeService employeeService = new EmployeeService(dBConnection);
+            BranchSubdivisionService branchSubdivisionService = new BranchSubdivisionService(dBConnection);
+            WorkHourService workHourService = new WorkHourService(dBConnection);
 
             string sql = String.Format("select employees.id, employees.surname, " +
                 " employees.name, employees.patronymic, employees.position," +

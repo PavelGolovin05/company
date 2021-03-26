@@ -12,7 +12,7 @@ namespace Company.Services
 {
     class CityService : Service
     {
-        public CityService(DBConnection dBConnection, DataGridView dataGridView) : base(dBConnection, dataGridView)
+        public CityService(DBConnection dBConnection) : base(dBConnection)
         { }
         public List<City> getAllCities()
         {

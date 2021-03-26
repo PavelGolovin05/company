@@ -12,7 +12,7 @@ namespace Company.Services
 {
     class BranchSubdivisionService : Service
     {
-        public BranchSubdivisionService(DBConnection dBConnection, DataGridView dataGridView) : base(dBConnection, dataGridView)
+        public BranchSubdivisionService(DBConnection dBConnection) : base(dBConnection)
         { }
         public List<BranchSubdivision> getAllBranchesSubdivisions()
         {
@@ -32,8 +32,8 @@ namespace Company.Services
         }
         public List<BranchSubdivision> getBranchesSubdivisions(string sql)
         {
-            BranchService branchService = new BranchService(dBConnection, dataGridView);
-            SubdivisionService subdivisionService = new SubdivisionService(dBConnection, dataGridView);
+            BranchService branchService = new BranchService(dBConnection);
+            SubdivisionService subdivisionService = new SubdivisionService(dBConnection);
 
             List<Branch> branches = branchService.getAllBranches();
             List<Subdivision> subdivisions = subdivisionService.getAllSubdivisions();

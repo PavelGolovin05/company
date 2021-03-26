@@ -12,7 +12,7 @@ namespace Company.Services
 {
     class EmployeeService : Service
     {
-        public EmployeeService(DBConnection dBConnection, DataGridView dataGridView) : base(dBConnection, dataGridView)
+        public EmployeeService(DBConnection dBConnection) : base(dBConnection)
         { }
         public List<Employee> getAllEmployees()
         {
@@ -72,9 +72,9 @@ namespace Company.Services
         }
         public List<Employee> getEmployees(string sql)
         {
-            PaymentTypeService paymentTypeService = new PaymentTypeService(dBConnection, dataGridView);
-            PositionService positionService = new PositionService(dBConnection, dataGridView);
-            BranchSubdivisionService branchSubdivisionService = new BranchSubdivisionService(dBConnection, dataGridView);
+            PaymentTypeService paymentTypeService = new PaymentTypeService(dBConnection);
+            PositionService positionService = new PositionService(dBConnection);
+            BranchSubdivisionService branchSubdivisionService = new BranchSubdivisionService(dBConnection);
 
             List<PaymentType> paymentTypes = paymentTypeService.getAllPaymentTypes();
             List<Position> positions = positionService.getAllPositions();
@@ -104,8 +104,8 @@ namespace Company.Services
 
         public List<Employee> CalculateSalary(List<Employee> employees)
         {
-            WorkHourService workHourService = new WorkHourService(dBConnection, dataGridView);
-            MonthService monthService = new MonthService(dBConnection, dataGridView);
+            WorkHourService workHourService = new WorkHourService(dBConnection);
+            MonthService monthService = new MonthService(dBConnection);
 
             foreach (Employee employee in employees)
             {
@@ -122,7 +122,7 @@ namespace Company.Services
                     switch (employee.PaymentType.Id)
                     {
                         case 1:
-                            employee.Salary = employee.FixedSalary / month.WorkHours * workHours.HoursCount;
+                            employee.Salary =  Convert.ToDouble( employee.FixedSalary) / month.WorkHours * workHours.HoursCount;
                             break;
                         case 2:
                             employee.Salary = workHours.HoursCount * employee.HourCost;
@@ -168,6 +168,18 @@ namespace Company.Services
                 " where id = {3}",
                 employee.PaymentType.Id, employee.FixedSalary, employee.HourCost, employee.Id);
             dBConnection.CUD(sql);
+        }
+
+        public List<Employee> EmployeesFixeSalaryAllHours()
+        {
+            string sql = "select employees.id, employees.surname, employees.name, employees.patronymic, employees.position,\n"
+                + "employees.payment_type , employees.branch_subdivision, employees.fixed_salary, employees.hour_cost\n"
+                + "from employees\n"
+                + "inner join work_hours on work_hours.employee = employees.id\n"
+                + "inner join month_work_hours on work_hours.month = month_work_hours.id\n"
+                + "where employees.payment_type = 1 and month_work_hours.hours_count = work_hours.hours_count "
+                + "and work_hours.month = MONTH(CURRENT_DATE())";
+            return getEmployees(sql);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Company.Services
 {
     class PositionService : Service
     {
-        public PositionService(DBConnection dBConnection, DataGridView dataGridView) : base(dBConnection, dataGridView)
+        public PositionService(DBConnection dBConnection) : base(dBConnection)
         { }
         public List<Position> getAllPositions()
         {

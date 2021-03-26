@@ -17,7 +17,7 @@ namespace Company.Entities
         private PaymentType paymentType;
         private int fixedSalary;
         private int hourCost;
-        private int salary;
+        private double salary;
 
         public Employee(int id, string surname, string name, string patronymic,
             BranchSubdivision branchSubdivision, Position position,
@@ -48,7 +48,7 @@ namespace Company.Entities
         internal Position Position { get => position; set => position = value; }
         internal PaymentType PaymentType { get => paymentType; set => paymentType = value; }
         internal BranchSubdivision BranchSubdivision { get => branchSubdivision; set => branchSubdivision = value; }
-        public int Salary { get => salary; set => salary = value; }
+        public double Salary { get => salary; set => salary = value; }
 
         public override string ToString()
         {

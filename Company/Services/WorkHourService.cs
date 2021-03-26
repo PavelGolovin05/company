@@ -12,7 +12,7 @@ namespace Company.Services
 {
     class WorkHourService : Service
     {
-        public WorkHourService(DBConnection dBConnection, DataGridView dataGridView) : base(dBConnection, dataGridView)
+        public WorkHourService(DBConnection dBConnection) : base(dBConnection)
         { }
         public List<WorkHours> getAllWorkHours()
         {
@@ -22,8 +22,8 @@ namespace Company.Services
 
         public List<WorkHours> getWorkHours(string sql)
         {
-            MonthService monthService = new MonthService(dBConnection, dataGridView);
-            EmployeeService employeeService = new EmployeeService(dBConnection, dataGridView);
+            MonthService monthService = new MonthService(dBConnection);
+            EmployeeService employeeService = new EmployeeService(dBConnection);
 
             List<Month> months = monthService.getAllMonths();
             List<Employee> employees = employeeService.getAllEmployees();

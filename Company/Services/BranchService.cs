@@ -12,12 +12,12 @@ namespace Company.Services
 {
     class BranchService : Service
     {
-        public BranchService(DBConnection dBConnection, DataGridView dataGridView) : base(dBConnection, dataGridView)
+        public BranchService(DBConnection dBConnection) : base(dBConnection)
         { }
 
         public List<Branch> getAllBranches()
         {
-            CityService cityService = new CityService(dBConnection, dataGridView);
+            CityService cityService = new CityService(dBConnection);
 
             List<City> cities = cityService.getAllCities();
             List<Branch> branches = new List<Branch>();
@@ -41,9 +41,9 @@ namespace Company.Services
         //Каскадное удаление
         public void deleteBranch(Branch branch)
         {
-            EmployeeService employeeService = new EmployeeService(dBConnection, dataGridView);
-            BranchSubdivisionService branchSubdivisionService = new BranchSubdivisionService(dBConnection, dataGridView);
-            WorkHourService workHourService = new WorkHourService(dBConnection, dataGridView);
+            EmployeeService employeeService = new EmployeeService(dBConnection);
+            BranchSubdivisionService branchSubdivisionService = new BranchSubdivisionService(dBConnection);
+            WorkHourService workHourService = new WorkHourService(dBConnection);
 
             string sql = String.Format("select employees.id, employees.surname, " +
                 " employees.name, employees.patronymic, employees.position," +
@@ -83,6 +83,43 @@ namespace Company.Services
 
             sql = String.Format("Delete From branсhes Where id = '{0}'", branch.Id);
             dBConnection.CUD(sql);
+        }
+
+        public List<Branch> getReport5()
+        {
+            CityService cityService = new CityService(dBConnection);
+
+            List<City> cities = cityService.getAllCities();
+            List<Branch> branches = new List<Branch>();
+
+            string sql = "select branсhes.id as branch, branсhes.name, cities.id," +
+                " subdivisions.id, subdivisions.subdivision, count(employees.id)" +
+                " from branсhes" +
+                " inner join branches_subdivisions on branсhes.id = branches_subdivisions.branch" +
+                " inner join subdivisions on subdivisions.id = branches_subdivisions.subdivision" +
+                " inner join employees on branches_subdivisions.id = employees.branch_subdivision" +
+                " inner join cities on cities.id = branсhes.city" +
+                " group by branches_subdivisions.id" +
+                " order by branсhes.name";
+            DataTable branchesTable = dBConnection.SelectQuery(sql);
+            string name = "";
+            foreach (DataRow row in branchesTable.Rows)
+            {               
+                if(name == row.ItemArray[1].ToString())
+                {
+                    branches.Last().Subdivisions.Add(new Subdivision((int)row.ItemArray[3],
+                        row.ItemArray[4].ToString() + " " + row.ItemArray[5].ToString() + " чел"));
+                }
+                else
+                {
+                    name = row.ItemArray[1].ToString();
+                    City searchCity = cities.Where(x => x.Id == (int)row.ItemArray[2]).First();
+                    branches.Add(new Branch((int)row.ItemArray[0], name, searchCity));
+                    branches.Last().Subdivisions.Add(new Subdivision((int) row.ItemArray[3],
+                        row.ItemArray[4].ToString() + " " + row.ItemArray[5].ToString() + " чел"));
+                }
+            }
+            return branches;
         }
     }
 }

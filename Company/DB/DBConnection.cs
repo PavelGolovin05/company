@@ -20,7 +20,6 @@ namespace Company.DB
         private MySqlConnection mySqlConnection;
         private MySqlCommand command;
         MySqlDataAdapter adapter;
-
         public DBConnection(string server, string user, string db, string password, string charSet)
         {
             this.server = server;
@@ -33,7 +32,6 @@ namespace Company.DB
             mySqlConnection = new MySqlConnection(connectSring);
             adapter = new MySqlDataAdapter();
         }
-
         public void OpenConnection()
         {
             if (mySqlConnection.State != System.Data.ConnectionState.Open)
@@ -54,12 +52,11 @@ namespace Company.DB
                 MessageBox.Show("Соединение сервером уже установлено!");
             }
         }
-
         public void CloseConnetion()
         {
             mySqlConnection.Close();
         }
-
+        //Create Update Delete query
         public void CUD(string sql)
         {
             command = new MySqlCommand(sql, mySqlConnection);
@@ -72,7 +69,7 @@ namespace Company.DB
                 MessageBox.Show(e.Message);
             }
         }
-
+        //Select Query
         public DataTable SelectQuery(string sql)
         {
             try

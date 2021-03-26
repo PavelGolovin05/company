@@ -12,7 +12,7 @@ namespace Company.Services
 {
     class MonthService : Service
     {
-        public MonthService(DBConnection dBConnection, DataGridView dataGridView) : base(dBConnection, dataGridView)
+        public MonthService(DBConnection dBConnection) : base(dBConnection)
         { }
         public List<Month> getAllMonths()
         {
