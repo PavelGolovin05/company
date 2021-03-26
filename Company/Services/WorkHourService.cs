@@ -47,5 +47,12 @@ namespace Company.Services
                 " Values({0}, {1}, {2})", employee, hoursCount, month);
             dBConnection.CUD(sql);
         }
+
+        public void updateWorkHours(WorkHours workHour)
+        {
+            string sql = String.Format("Update work_hours Set employee = {0}, hours_count = {1}, month = {2}" +
+                " where id = {3}", workHour.Employee.Id, workHour.HoursCount, workHour.Month.Id, workHour.Id);
+            dBConnection.CUD(sql);
+        }
     }
 }

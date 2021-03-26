@@ -78,7 +78,14 @@ namespace Company
             {
                 dataGridView1.Columns[i].HeaderText = employeeService.getColumnNames()[i];
             }
-            dataGridView1.RowCount = employees.Count + 1;
+            if(employees.Count < 1)
+            {
+                dataGridView1.RowCount = 1;
+            }
+            else
+            {
+                dataGridView1.RowCount = employees.Count;
+            }
 
             for (int i = 0; i < employees.Count; i++)
             {
@@ -293,13 +300,25 @@ namespace Company
         {
             if (dataGridView1.CurrentRow != null)
             {
+                Month month = monthService.getCurrentMonth();
                 int id = Convert.ToInt32(dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells[0].Value);
                 Employee employee = employees.Where(x => x.Id == id).First();
 
-                WorkHoursInput workHours = new WorkHoursInput(months);
-                if (workHours.ShowDialog() == DialogResult.OK)
+                WorkHoursInput workHoursInput = new WorkHoursInput(month);
+                if (workHoursInput.ShowDialog() == DialogResult.OK)
                 {
-                    workHourService.addWorkHours(employee.Id, workHours.HoursCount, workHours.Month);
+                    WorkHours searchWorkHours = workHours.Where(x=>x.Employee.Id == employee.Id 
+                    && x.Month.Id == month.Id).FirstOrDefault();
+                    if (searchWorkHours == null)
+                    {
+                        workHourService.addWorkHours(employee.Id, workHoursInput.HoursCount, month.Id);
+                    }
+                    else
+                    {
+                        searchWorkHours.HoursCount = workHoursInput.HoursCount;
+                        workHourService.updateWorkHours(searchWorkHours);
+                    }
+                    initialData();
                 }
 ;            }
         }
@@ -321,6 +340,7 @@ namespace Company
                     MessageBox.Show("Такое место работы уже есть!");
                 }
             }
+            initialData();
         }
     }
 }

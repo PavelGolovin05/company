@@ -112,19 +112,26 @@ namespace Company.Services
                 string sql2 = String.Format("Select * from work_hours where employee = {0}" +
                     " and month = MONTH(CURRENT_DATE())", employee.Id);
 
-                WorkHours workHours = workHourService.getWorkHours(sql2).First();
+                WorkHours workHours = workHourService.getWorkHours(sql2).FirstOrDefault();
 
-                sql2 = "Select * from month_work_hours where id = MONTH(CURRENT_DATE())";
-
-                Month month = monthService.getMonths(sql2).First();
-                switch (employee.PaymentType.Id)
+                if (workHours != null)
                 {
-                    case 1:
-                        employee.Salary = employee.FixedSalary / month.WorkHours * workHours.HoursCount;
-                        break;
-                    case 2:
-                        employee.Salary = workHours.HoursCount * employee.HourCost;
-                        break;
+                    sql2 = "Select * from month_work_hours where id = MONTH(CURRENT_DATE())";
+
+                    Month month = monthService.getMonths(sql2).First();
+                    switch (employee.PaymentType.Id)
+                    {
+                        case 1:
+                            employee.Salary = employee.FixedSalary / month.WorkHours * workHours.HoursCount;
+                            break;
+                        case 2:
+                            employee.Salary = workHours.HoursCount * employee.HourCost;
+                            break;
+                    }
+                }
+                else
+                {
+                    continue;
                 }
             }
             return employees;
@@ -142,7 +149,11 @@ namespace Company.Services
 
         public void deleteEmployeeById(Employee employee)
         {
-            string sql = String.Format("Delete from employees where id = '{0}'", employee.Id);
+            string sql = String.Format("Delete from work_hours where employee = {0}", employee.Id);
+
+            dBConnection.CUD(sql);
+
+            sql = String.Format("Delete from employees where id = '{0}'", employee.Id);
             deleteEmployee(sql);
         }
 

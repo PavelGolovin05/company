@@ -13,32 +13,19 @@ namespace Company.Forms
 {
     public partial class WorkHoursInput : Form
     {
-        private int hoursCount, month;
-        public WorkHoursInput(List<Month> months)
+        private int hoursCount;
+        public WorkHoursInput(Month month)
         {
             InitializeComponent();
-
-            foreach (Month month in months)
-            {
-                listBox1.Items.Add(month.ToString());
-            }
+            label1.Text = month.ToString();
         }
         public int HoursCount { get => hoursCount; set => hoursCount = value; }
-        public int Month { get => month; set => month = value; }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (listBox1.SelectedIndex > -1)
-            {
-                hoursCount = (int) numericUpDown1.Value;
-                month = listBox1.SelectedIndex + 1;
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Выберете месяц!");
-            }
+            hoursCount = (int) numericUpDown1.Value;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

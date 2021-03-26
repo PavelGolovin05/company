@@ -21,6 +21,13 @@ namespace Company.Services
             return getMonths(sql);
         }
 
+        public Month getCurrentMonth()
+        {
+            string sql = "Select * From month_work_hours where id = MONTH(CURRENT_DATE())";
+
+            return getMonths(sql).First();
+        }
+
         public List<Month> getMonths(string sql)
         {
             List<Month> months = new List<Month>();
